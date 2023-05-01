@@ -52,6 +52,7 @@ export default function Car360() {
   }, [imageIndex]);
 
   useEffect(() => {
+    if (!drag) return;
     if (imageIndex >= 50) {
       setImageIndex(1);
       return;

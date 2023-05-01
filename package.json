@@ -16,13 +16,15 @@
     "@emotion/styled": "latest",
     "@mui/icons-material": "latest",
     "@mui/material": "latest",
+    "js-cloudimage-360-view": "^3.1.1",
     "next": "latest",
     "react": "latest",
+    "react-360-product-viewer": "^0.1.0",
     "react-dom": "latest"
   },
   "devDependencies": {
     "@types/node": "latest",
-    "@types/react": "latest",
+    "@types/react": "^18.2.0",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "eslint": "latest",
     "eslint-config-airbnb": "^19.0.4",

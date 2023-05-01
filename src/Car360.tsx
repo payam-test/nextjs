@@ -15,7 +15,7 @@ const Container = styled(Box)({
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   boxShadow: "0 0 100px lightyellow",
-  border: "1px solid lightyellow",
+  // border: "1px solid lightyellow",
   borderRadius: 8,
   flexShrink: 1,
   "&:hover": {
@@ -40,19 +40,45 @@ const imageStyle = {
 
 export default function Car360() {
   const [imageIndex, setImageIndex]: any = useState(1);
+  const [direction, setDirection] = useState("");
+  const [oldX, setOldX] = useState(0);
   const ref: any = useRef();
   const matches = useMediaQuery("(max-width:600px)");
   if (ref?.current) var { clientWidth } = ref?.current;
+  const [drag, setDrag] = useState(false);
 
   const src: any = useMemo(() => {
     return `/image/lambo${imageIndex}.jpg`;
   }, [imageIndex]);
 
   useEffect(() => {
-    if (imageIndex <= 0 || imageIndex >= 51) setImageIndex(50);
+    if (imageIndex >= 50) {
+      setImageIndex(1);
+      return;
+    } else if (imageIndex <= 1) {
+      setImageIndex(50);
+      return;
+    }
   }, [imageIndex]);
 
+  useEffect(() => {
+    if (!drag) return;
+    if (direction === "right")
+      setTimeout(() => {
+        const time = imageIndex + 1;
+        setImageIndex(time);
+      }, 100);
+    else if (direction === "left")
+      setTimeout(() => {
+        const time = imageIndex - 1;
+        setImageIndex(time);
+      }, 100);
+  }, [drag, direction, oldX]);
+
+  console.log(direction);
+
   const handleClick = (data: any) => {
+    console.log("onClick");
     if (imageIndex <= 0 || imageIndex >= 51) return;
     const { nativeEvent } = data;
     const { offsetX } = nativeEvent;
@@ -65,46 +91,56 @@ export default function Car360() {
     setImageIndex(data);
   };
 
-  const handleDrag = (e: any) => {
-    e.preventDefault();
-    const { nativeEvent } = e;
-    const { offsetX } = nativeEvent;
-    let oldX = 0; // detect cursor direction
-
-    if (offsetX > oldX) {
-      oldX = offsetX;
-      setTimeout(() => {
-        const time = imageIndex + 1;
-        setImageIndex(time);
-      }, 100);
-      console.log(offsetX, "offset");
-    } else if (offsetX < oldX) {
-      oldX = offsetX;
-      setTimeout(() => {
-        const time = imageIndex - 1;
-        setImageIndex(time);
-      }, 100);
-      console.log(oldX, "oldxP");
+  const handleMouseMove = (e: any) => {
+    if (!drag) return;
+    if (e.pageX < oldX) {
+      setDirection("left");
+    } else if (e.pageX > oldX) {
+      setDirection("right");
     }
+    setOldX(e.pageX);
+    // const { nativeEvent } = e;
+    // const { offsetX } = nativeEvent;
+    // console.log(oldX, "oldxP");
+    // if (offsetX > oldX) {
+    //   oldX = offsetX;
+    //   // setTimeout(() => {
+    //   //   const time = imageIndex + 1;
+    //   //   setImageIndex(time);
+    //   // }, 100);
+    //   console.log(offsetX, "offset");
+    // } else if (offsetX < oldX) {
+    //   oldX = offsetX;
+    //   setTimeout(() => {
+    //     const time = imageIndex - 1;
+    //     setImageIndex(time);
+    //   }, 100);
+    // }
+    // console.log(offsetX, "offset");
   };
 
   return (
     <Container sx={{ width: clientWidth ? clientWidth : "500px" }}>
-      <DiscreteSlider
-        index={imageIndex}
-        setImageIndex={(data: React.SetStateAction<number>) =>
-          handleChaneIndex(data)
-        }
-      />
       <Image
+        onDragStart={(e) => {
+          e.preventDefault();
+          setDrag(true);
+        }}
+        onMouseUp={() => setDrag(false)}
+        onMouseMove={handleMouseMove}
         // onClick={handleClick}
-        // onDrag={handleDrag}
         style={imageStyle}
         src={src}
         ref={ref}
         width={matches ? 300 : 600}
         height={500}
         alt={"image"}
+      />
+      <DiscreteSlider
+        index={imageIndex}
+        setImageIndex={(data: React.SetStateAction<number>) =>
+          handleChaneIndex(data)
+        }
       />
     </Container>
   );

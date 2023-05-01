@@ -21,10 +21,9 @@ export default function DiscreteSlider(props: Props) {
     <Slider
       style={{
         cursor: "ew-resize",
-        position: "absolute",
         width: "inherit",
-        opacity: 0,
-        height: 200,
+        // opacity: 0,
+        height: 10,
       }}
       value={index}
       onChange={(data) => handleOnChane(data)}

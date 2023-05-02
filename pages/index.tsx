@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <ResponsiveAppBar />
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Box
           sx={{
             my: 4,
@@ -25,7 +25,7 @@ export default function Home() {
           <Typography variant="h4" component="h1" gutterBottom>
             Material UI - Next.js example in TypeScript
           </Typography>
-          <Link href="/about" color="secondary">
+          <Link href="/about" color="secondary" sx={{ mb: 1 }}>
             Go to the about page
           </Link>
           <Car360Com />

@@ -22,7 +22,6 @@ export default function DiscreteSlider(props: Props) {
       style={{
         cursor: "ew-resize",
         width: "inherit",
-        // opacity: 0,
         height: 10,
       }}
       value={index}

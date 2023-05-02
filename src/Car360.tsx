@@ -1,8 +1,10 @@
-import React, { useMemo, useRef, useState, useEffect } from "react";
-import { Box, useMediaQuery } from "@mui/material";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Box, Tooltip } from "@mui/material";
 import Image from "next/image";
 import { styled } from "@mui/material/styles";
 import DiscreteSlider from "./components/Slider";
+import PlusIcon from "./components/PlusIcon";
+import ShowWindowDimensions from "./utils/resize";
 
 const Container = styled(Box)({
   height: "90vh",
@@ -15,7 +17,6 @@ const Container = styled(Box)({
   backgroundPosition: "center",
   backgroundRepeat: "no-repeat",
   boxShadow: "0 0 100px lightyellow",
-  // border: "1px solid lightyellow",
   borderRadius: 8,
   flexShrink: 1,
   "&:hover": {
@@ -32,54 +33,80 @@ const Container = styled(Box)({
   },
 });
 
-const imageStyle = {
-  width: "auto",
-  height: "auto",
-  borderRadius: 8,
-};
+const carDetail = [
+  { image: 1, x: 25, y: 50, title: "the hood" },
+  { image: 2, x: 25, y: 50, title: "the hood" },
+  { image: 3, x: 20, y: 50, title: "the hood" },
+  { image: 4, x: 20, y: 50, title: "the hood" },
+  { image: 5, x: 15, y: 50, title: "the hood" },
+  { image: 6, x: 30, y: 60, title: "the hood" },
+  { image: 7, x: 30, y: 60, title: "the hood" },
+  { image: 8, x: 30, y: 60, title: "the hood" },
+  { image: 9, x: 40, y: 50, title: "the hood" },
+  { image: 10, x: 40, y: 50, title: "the hood" },
+  { image: 11, x: 70, y: 60, title: "the hood" },
+  { image: 12, x: 85, y: 60, title: "the hood" },
+  { image: 13, x: 87, y: 50, title: "the hood" },
+  { image: 14, x: 85, y: 50, title: "the hood" },
+  { image: 15, x: 30, y: 60, title: "the hood" },
+  { image: 16, x: 40, y: 50, title: "the hood" },
+  { image: 17, x: 40, y: 50, title: "the hood" },
+  { image: 18, x: 70, y: 60, title: "the hood" },
+  { image: 19, x: 50, y: 60, title: "the hood" },
+  { image: 20, x: 70, y: 50, title: "the hood" },
+  { image: 21, x: 50, y: 50, title: "the hood" },
+  { image: 22, x: 25, y: 50, title: "the hood" },
+  { image: 23, x: 25, y: 50, title: "the hood" },
+  { image: 24, x: 20, y: 50, title: "the hood" },
+  { image: 25, x: 20, y: 50, title: "the hood" },
+  { image: 26, x: 15, y: 50, title: "the hood" },
+  { image: 27, x: 30, y: 60, title: "the hood" },
+  { image: 28, x: 30, y: 60, title: "the hood" },
+  { image: 29, x: 30, y: 60, title: "the hood" },
+  { image: 30, x: 40, y: 50, title: "the hood" },
+  { image: 31, x: 40, y: 50, title: "the hood" },
+  { image: 32, x: 70, y: 60, title: "the hood" },
+  { image: 33, x: 85, y: 60, title: "the hood" },
+  { image: 34, x: 90, y: 50, title: "the hood" },
+  { image: 35, x: 90, y: 50, title: "the hood" },
+  { image: 36, x: 30, y: 60, title: "the hood" },
+  { image: 37, x: 40, y: 50, title: "the hood" },
+  { image: 38, x: 40, y: 50, title: "the hood" },
+  { image: 39, x: 70, y: 60, title: "the hood" },
+  { image: 40, x: 85, y: 60, title: "the hood" },
+  { image: 41, x: 50, y: 50, title: "the hood" },
+  { image: 42, x: 90, y: 50, title: "the hood" },
+  { image: 43, x: 50, y: 60, title: "the hood" },
+  { image: 44, x: 40, y: 50, title: "the hood" },
+  { image: 45, x: 40, y: 50, title: "the hood" },
+  { image: 46, x: 50, y: 60, title: "the hood" },
+  { image: 47, x: 50, y: 60, title: "the hood" },
+  { image: 48, x: 60, y: 50, title: "the hood" },
+  { image: 49, x: 50, y: 50, title: "the hood" },
+  { image: 50, x: 60, y: 50, title: "the hood" },
+];
 
 export default function Car360() {
   const [imageIndex, setImageIndex]: any = useState(1);
-  const [direction, setDirection] = useState("");
   const [oldX, setOldX] = useState(0);
-  const ref: any = useRef();
-  const matches = useMediaQuery("(max-width:600px)");
-  if (ref?.current) var { clientWidth } = ref?.current;
   const [drag, setDrag] = useState(false);
 
-  const src: any = useMemo(() => {
-    return `/image/lambo${imageIndex}.jpg`;
-  }, [imageIndex]);
+  const ref: any = useRef();
 
-  useEffect(() => {
-    if (!drag) return;
-    if (imageIndex >= 50) {
-      setImageIndex(1);
-      return;
-    } else if (imageIndex <= 1) {
-      setImageIndex(50);
-      return;
-    }
-  }, [imageIndex]);
+  const src: any = useMemo(() => `/image/lambo${imageIndex}.jpg`, [imageIndex]);
 
-  useEffect(() => {
-    if (!drag) return;
-    if (direction === "right")
-      setTimeout(() => {
-        const time = imageIndex + 1;
-        setImageIndex(time);
-      }, 100);
-    else if (direction === "left")
-      setTimeout(() => {
-        const time = imageIndex - 1;
-        setImageIndex(time);
-      }, 100);
-  }, [drag, direction, oldX]);
+  const imageStyle = {
+    height: "auto",
+    borderRadius: 8,
+    cursor: drag ? "grabbing" : "grab",
+  };
 
-  console.log(direction);
+  var clientWidth = ref?.current?.clientWidth,
+    offsetLeft = ref?.current?.offsetLeft,
+    offsetTop = ref?.current?.offsetTop,
+    clientHeight = ref?.current?.clientHeight;
 
   const handleClick = (data: any) => {
-    console.log("onClick");
     if (imageIndex <= 0 || imageIndex >= 51) return;
     const { nativeEvent } = data;
     const { offsetX } = nativeEvent;
@@ -94,34 +121,26 @@ export default function Car360() {
 
   const handleMouseMove = (e: any) => {
     if (!drag) return;
-    if (e.pageX < oldX) {
-      setDirection("left");
-    } else if (e.pageX > oldX) {
-      setDirection("right");
-    }
+    if (e.pageX < oldX) setImageIndex((current: number) => --current);
+    else if (e.pageX > oldX) setImageIndex((current: number) => ++current);
+
     setOldX(e.pageX);
-    // const { nativeEvent } = e;
-    // const { offsetX } = nativeEvent;
-    // console.log(oldX, "oldxP");
-    // if (offsetX > oldX) {
-    //   oldX = offsetX;
-    //   // setTimeout(() => {
-    //   //   const time = imageIndex + 1;
-    //   //   setImageIndex(time);
-    //   // }, 100);
-    //   console.log(offsetX, "offset");
-    // } else if (offsetX < oldX) {
-    //   oldX = offsetX;
-    //   setTimeout(() => {
-    //     const time = imageIndex - 1;
-    //     setImageIndex(time);
-    //   }, 100);
-    // }
-    // console.log(offsetX, "offset");
   };
 
+  useEffect(() => {
+    if (imageIndex < 1) {
+      setImageIndex(50);
+      return;
+    } else if (imageIndex > 50) {
+      setImageIndex(1);
+      return;
+    }
+  }, [imageIndex]);
+
+  const { width }: any = ShowWindowDimensions();
+
   return (
-    <Container sx={{ width: clientWidth ? clientWidth : "500px" }}>
+    <Container>
       <Image
         onDragStart={(e) => {
           e.preventDefault();
@@ -129,11 +148,11 @@ export default function Car360() {
         }}
         onMouseUp={() => setDrag(false)}
         onMouseMove={handleMouseMove}
-        // onClick={handleClick}
+        onClick={handleClick}
         style={imageStyle}
         src={src}
         ref={ref}
-        width={matches ? 300 : 600}
+        width={width * 0.8}
         height={500}
         alt={"image"}
       />
@@ -143,6 +162,21 @@ export default function Car360() {
           handleChaneIndex(data)
         }
       />
+      {carDetail?.map((data, id) => (
+        <Tooltip key={id} title={data.title} sx={{ curso: "pointer" }}>
+          <Box
+            sx={{
+              cursor: "pointer",
+              position: "absolute",
+              top: offsetTop + (clientHeight / 100) * data.y,
+              left: offsetLeft + (clientWidth / 100) * data.x,
+              display: data?.image === imageIndex ? "flex" : "none",
+            }}
+          >
+            <PlusIcon />
+          </Box>
+        </Tooltip>
+      ))}
     </Container>
   );
 }

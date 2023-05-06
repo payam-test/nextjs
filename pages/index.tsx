@@ -7,6 +7,7 @@ import ProTip from "../src/ProTip";
 import Copyright from "../src/Copyright";
 import Car360Com from "../src/Car360";
 import ResponsiveAppBar from "../src/Appbar";
+import Car360viewer from "../src/components/Car360Viewer";
 
 export default function Home() {
   return (
@@ -22,13 +23,7 @@ export default function Home() {
             alignItems: "center",
           }}
         >
-          <Typography variant="h4" component="h1" gutterBottom>
-            Material UI - Next.js example in TypeScript
-          </Typography>
-          <Link href="/about" color="secondary" sx={{ mb: 1 }}>
-            Go to the about page
-          </Link>
-          <Car360Com />
+          <Car360viewer />
           <ProTip />
           <Copyright />
         </Box>

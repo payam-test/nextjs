@@ -53,7 +53,6 @@ export default function Car360() {
     offsetLeft = ref?.current?.offsetLeft,
     offsetTop = ref?.current?.offsetTop,
     clientHeight = ref?.current?.clientHeight;
-  console.log(clientWidth);
 
   const handleClick = (data: any) => {
     if (imageIndex <= 0 || imageIndex >= 51) return;

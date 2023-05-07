@@ -19,7 +19,6 @@ const Car360viewer = () => {
     offsetTop = offsetParent?.offsetTop,
     clientHeight = offsetParent?.clientHeight;
 
-  console.log(clientHeight);
 
   const { connect, angle } = useAxes(
     {
@@ -38,7 +37,7 @@ const Car360viewer = () => {
   }, []);
 
   return (
-    <Container>
+    <>
       <Typography variant="h4" component="h1" gutterBottom>
         2021 BMW 430i xDrive
       </Typography>
@@ -65,14 +64,16 @@ const Car360viewer = () => {
                   key={key}
                   src={`/image/lambo${i?.image}.jpg`}
                   style={{
-                    borderRadius: 10,
+                    width: "auto",
                     height: "auto",
+                    padding: 10,
+                    borderRadius: 10,
                     display:
                       Math.floor((angle % 360) / 10 + 1) === i?.image
                         ? "flex"
                         : "none",
                   }}
-                  width={width * 0.9}
+                  width={width}
                   height={500}
                 />
                 <Tooltip title={i.title} sx={{ curso: "pointer" }}>
@@ -100,7 +101,7 @@ const Car360viewer = () => {
           Photos
         </Button>
       </Box>
-    </Container>
+    </>
   );
 };
 

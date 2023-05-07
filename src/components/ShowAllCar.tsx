@@ -13,24 +13,18 @@ export default function ShowAllCar() {
   return (
     <ImageList
       gap={2}
-      style={{
+      sx={{
         width: "auto",
         height: 300,
-        [theme.breakpoints.down("sm")]: {
-          gridTemplateColumns: "repeat(3, 1fr)",
-        },
-        [theme.breakpoints.down("md")]: {
-          gridTemplateColumns: "repeat(4, 1fr)",
-        },
-        [theme.breakpoints.down("lg")]: {
-          gridTemplateColumns: "repeat(5, 1fr)",
-        },
-        [theme.breakpoints.up("lg")]: {
-          gridTemplateColumns: "repeat(6, 1fr)",
+        gridTemplateColumns: {
+          xs: "repeat(1, 1fr) !important",
+          sm: "repeat(2, 1fr) !important",
+          md: "repeat(4, 1fr) !important",
+          lg: "repeat(5, 1fr) !important",
+          xl: "repeat(6, 1fr) !important",
         },
       }}
     >
-      https://shift.com/car/2021-black-bmw-4-series/c1865309
       {carDetail.map((item) => (
         <ImageListItem
           sx={{
@@ -38,13 +32,13 @@ export default function ShowAllCar() {
             height: 200,
           }}
           key={item.image}
-        >
+          >
           <img
             style={{
               objectFit: "contain",
               width: 200,
-              height: 200,
               borderRadius: 8,
+              height: 200,
             }}
             src={`/image/lambo${item?.image}.jpg`}
             alt={item.title}
@@ -52,6 +46,7 @@ export default function ShowAllCar() {
           />
         </ImageListItem>
       ))}
+      https://shift.com/car/2021-black-bmw-4-series/c1865309
     </ImageList>
   );
 }
